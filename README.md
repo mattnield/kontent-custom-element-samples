@@ -8,7 +8,7 @@ The examples are written in vanilla JavaScript and are intended to be used as a 
 
 1. Clone the repository
 1. Run migration scripts in the migration folder.
-1. Run `dotnet serve -S` (or simialr command) to serve the files
+1. Run `dotnet serve -S -p 5001` (or simialr command) to serve the files
 1. Use the custom element URL in the Kontent.ai Custom Element configuration
 
 ## Custom Elements
