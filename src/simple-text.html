@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Duplicate Slug Detector</title>
+  <!-- Stylesheets -->
+  <link rel="stylesheet" type="text/css" href="/css/kontent-ai-app-styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+  <script src="https://app.kontent.ai/js-api/custom-element/v1/custom-element.min.js"></script>
+
+</head>
+
+<body>
+  <input type="text" id="myValue" class="text-field__input" />
+  <script type="text/javascript">
+
+    var myValueInput = document.getElementById('myValue');
+
+    myValueInput.addEventListener('input', function () {
+      setValue(myValueInput.value);
+      updateSize();
+    });
+
+    // Kontent functions
+    var isDisabled = false;
+
+    function setValue(value) {
+      if (!isDisabled) {
+        CustomElement.setValue(value || null);
+      }
+    }
+
+    function updateSize() {
+      // Updates the custom element height in the Kentico UI.
+      const height = Math.ceil($('html').height());
+      CustomElement.setHeight(height);
+    }
+
+    function updateDisabled(disabled) {
+      isDisabled = disabled;
+    }
+
+    function initCustomElement() {
+      try {
+        CustomElement.init((element, _context) => {
+          if (element.value !== null) {
+            myValueInput.value = element.value;
+          }
+
+          updateSize();
+        });
+
+        // Reacts to changes in disabling (e.g., when publishing the item)
+        CustomElement.onDisabledChanged(updateDisabled);
+      } catch (err) {
+        // Sends message to console and editor if initialization failed (for example, the page is displayed outside the Kontent UI)
+        console.error(err);
+      }
+    }
+
+    initCustomElement();
+  </script>
+</body>
+
+</html>
