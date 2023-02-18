@@ -1,4 +1,4 @@
-# Kontent.ai Custome Element Samples
+# Kontent.ai Custom Element Samples
 
 A collection of simple custom elements for Kontent.ai to demonstrate the capabilities of the Kontent.ai Custom Element and the Kontent.ai Custom Element SDK.
 
