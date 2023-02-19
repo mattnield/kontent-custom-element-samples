@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Duplicate Slug Detector</title>
+  <!-- Stylesheets -->
+  <link rel="stylesheet" type="text/css" href="/css/kontent-ai-app-styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+  <script src="https://app.kontent.ai/js-api/custom-element/v1/custom-element.min.js"></script>
+
+</head>
+
+<body>
+    <h3>Context</h3>
+    <pre id="contextPreformatted"></pre>
+
+    <h3>Element</h3>
+    <p id="elementValue"></p>
+
+
+    <h3>Content Item</h3>
+    <pre id="contentItemPrefromatted"></pre>
+  
+  <script type="text/javascript">
+
+    var contextPreformatted = document.getElementById('contextPreformatted');
+    var elementValue = document.getElementById('elementValue');
+    var contentItemPrefromatted = document.getElementById('contentItemPrefromatted');
+
+    // Kontent functions
+    var isDisabled = false;
+
+    function setValue(value) {
+      if (!isDisabled) {
+        CustomElement.setValue(value || null);
+      }
+    }
+
+    function updateSize() {
+      // Updates the custom element height in the Kentico UI.
+      const height = Math.ceil($('html').height());
+      CustomElement.setHeight(height);
+    }
+
+    function updateDisabled(disabled) {
+      isDisabled = disabled;
+    }
+
+    function initCustomElement() {
+      try {
+        CustomElement.init((element, _context) => {
+          // load the context
+          contextPreformatted.innerText = JSON.stringify(_context, null, 2);
+
+          // load the title
+          CustomElement.getElementValue('title', function(value) {
+            elementValue.innerText = value;
+          });
+
+          // load the element
+          CustomElement.getItemDetails([_context.item.id]).then(function(item) {
+            contentItemPrefromatted.innerText = JSON.stringify(item, null, 2);
+            updateSize();
+          });
+
+          updateSize();
+        });
+
+        // Reacts to changes in disabling (e.g., when publishing the item)
+        CustomElement.onDisabledChanged(updateDisabled);
+      } catch (err) {
+        // Sends message to console and editor if initialization failed (for example, the page is displayed outside the Kontent UI)
+        console.error(err);
+      }
+    }
+
+    initCustomElement();
+  </script>
+</body>
+
+</html>
