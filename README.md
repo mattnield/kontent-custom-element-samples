@@ -8,7 +8,7 @@ The examples are written in vanilla JavaScript and are intended to be used as a 
 
 1. Clone the repository
 1. Run `dotnet serve -S -p 5001` (or similar command) to serve the files
-1. Use the custom element URL in the Kontent.ai Custom Element configuration
+1. Use the custom element URL in the Kontent.ai Custom Element configuration. Specific examples are below with any further required instructions.
 
 ## Custom Elements
 
@@ -34,8 +34,16 @@ In the two screenshots below, the first shows the element with a value and the s
 
 Takes the example further by reading information about the element and the content item. This example shows how to read the element name, the element codename, the content item name and the content item codename.
 
+Before you use this example, you will need to create a content type with a text element called `title`, and will need to make sure that when you create the custom element, you allow it to read this element.  I.e.:
+
+![Setting up the title field](./images/reading-elements--setup.png)
+
+Everything in this element occus on initialisation, so the element does not need to be saved to see the results. When the element is loaded, we use the [getItemDetails method](https://kontent.ai/learn/reference/custom-elements-js-api/#a-getitemdetails-method) in combination with the [context](https://kontent.ai/learn/reference/custom-elements-js-api/#a-context-object) to get the content item details. 
+
+We also use the [getElementValue method](https://kontent.ai/learn/reference/custom-elements-js-api/#a-getelementvalue-method) to get the `title` element value. The results are then displayed in the element.
+
 ![Reading Elements](./images/reading-elements.png)
 
 ### 3rd Party API Integration <a name="3rd-party-api"></a>
 
-Show a simple case of an external API beng used to provide data to the custom element. This example uses the Open Breweries API to provide a list of random breweries. The user can select a brewery from the list and the custom element will store the brewery details.
+Show a simple case of an external API beng used to provide data to the custom element. This example uses the Open Breweries API to provide a list of breweries in Alask (why not?). The user can select a brewery from the list and the custom element will store the brewery details.

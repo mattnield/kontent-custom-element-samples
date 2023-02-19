@@ -3,18 +3,100 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Duplicate Slug Detector</title>
+  <title>3rd Party API</title>
   <!-- Stylesheets -->
-  <link rel="stylesheet" type="text/css"
-    href="/css/kontent-ai-app-styles.css">
+  <link rel="stylesheet" type="text/css" href="/css/kontent-ai-app-styles.css">
   <!-- Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
   <script src="https://app.kontent.ai/js-api/custom-element/v1/custom-element.min.js"></script>
-  <script type="text/javascript">
-
-  </script>
 </head>
+
 <body>
   <h1>3<sup>rd</sup> party API Custom Element</h1>
+  <select class="combo-box" id="breweries" >
+  </select>
+  <address id="breweryAddress">
+    <h3 id="breweryName"></h3>
+    <p id="breweryStreet"></p>
+    <p id="breweryCity"></p>
+    <p id="breweryState"></p>
+    <p id="breweryPostalCode"></p>
+    <a id="breweryWebsite"></a>
+  </address>
+
+  <script type="text/javascript">
+    var isDisabled = false;
+
+    $('#breweries').change(function () {
+      setValue($('option:selected', this).attr('brewery-data'));
+      setBreweryAddress(JSON.parse($('option:selected', this).attr('brewery-data')));
+    });
+
+    function loadBreweries(selectedBreweryId) {
+      $.ajax({
+        url: 'https://api.openbrewerydb.org/breweries?by_state=alaska&sort=name:asc&per_page=10',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+          $.each(data, function () {
+            $('#breweries').append($("<option />").val(this.id).text(this.name).attr('brewery-data', JSON.stringify(this)));
+            if (this.id === selectedBreweryId) $('#breweries').val(this.id);
+          });
+        }
+      });
+    }
+
+    function setBreweryAddress(brewery) {
+      $('#breweryName').text(brewery.name);
+      $('#breweryStreet').text(brewery.street);
+      $('#breweryCity').text(brewery.city);
+      $('#breweryState').text(brewery.state);
+      $('#breweryPostalCode').text(brewery.postal_code);
+      if(brewery.website_url) $('#breweryWebsite').attr('href', brewery.website_url).text(brewery.website_url)
+      else $('#breweryWebsite').attr('href', '').text('');
+    }
+
+    function setValue(value) {
+      if (!isDisabled) {
+        CustomElement.setValue(value || null);
+      }
+    }
+
+    function updateSize() {
+      const height = Math.ceil($('html').height());
+      CustomElement.setHeight(height);
+    }
+
+    function updateDisabled(disabled) {
+      isDisabled = disabled;
+    }
+
+    function initCustomElement() {
+      try {
+
+        CustomElement.init((element, _context) => {
+          if (element.value !== null) {
+            const breweryData = JSON.parse(element.value);
+            loadBreweries(breweryData.id);
+            setBreweryAddress(breweryData);
+          }
+          else {
+            loadBreweries();
+          }
+
+          updateSize();
+        });
+
+        CustomElement.onDisabledChanged(updateDisabled);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    $(function () {
+      initCustomElement();
+    });
+  </script>
 </body>
+
 </html>
