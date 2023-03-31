@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Observer</title>
+  <!-- Stylesheets -->
+  <link rel="stylesheet" type="text/css" href="/css/kontent-ai-app-styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+  <script src="https://app.kontent.ai/js-api/custom-element/v1/custom-element.min.js"></script>
+
+</head>
+
+<body>
+  <p>Observer</p>
+  <textarea id="output" rows="10" class="text-field__input"></textarea>
+  <script type="text/javascript">
+    CustomElement.observeElementChanges(['title','url_slug'], (element) => {
+      CustomElement.getElementValue(element[0], (value) => {
+        console.log(`${element} = ${value}`);
+      });
+    });
+  </script>
+</body>
+
+</html>
