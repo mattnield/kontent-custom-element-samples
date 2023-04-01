@@ -38,7 +38,7 @@ Before you use this example, you will need to create a content type with a text 
 
 ![Setting up the title field](./images/reading-elements--setup.png)
 
-Everything in this element occus on initialisation, so the element does not need to be saved to see the results. When the element is loaded, we use the [getItemDetails method](https://kontent.ai/learn/reference/custom-elements-js-api/#a-getitemdetails-method) in combination with the [context](https://kontent.ai/learn/reference/custom-elements-js-api/#a-context-object) to get the content item details. 
+Everything in this element occurs during initialisation, so the element does not need to be saved to see the results. When the element is loaded, we use the [getItemDetails method](https://kontent.ai/learn/reference/custom-elements-js-api/#a-getitemdetails-method) in combination with the [context](https://kontent.ai/learn/reference/custom-elements-js-api/#a-context-object) to get the content item details. 
 
 We also use the [getElementValue method](https://kontent.ai/learn/reference/custom-elements-js-api/#a-getelementvalue-method) to get the `title` element value. The results are then displayed in the element.
 
@@ -46,4 +46,8 @@ We also use the [getElementValue method](https://kontent.ai/learn/reference/cust
 
 ### 3rd Party API Integration <a name="3rd-party-api"></a>
 
-Show a simple case of an external API beng used to provide data to the custom element. This example uses the Open Breweries API to provide a list of breweries in Alask (why not?). The user can select a brewery from the list and the custom element will store the brewery details.
+Show a simple case of an external API being used to provide data to the custom element. 
+
+This example uses the Open Breweries API to provide a list of breweries in Alaska (why not?). The user can select a brewery from the list and the custom element will store the brewery details.
+
+When you're looking at integrations, it's considered best practice to protect any sensitive data. There is some information about this on the Kontent.ai documentation site: [Protect sensitive data in custom elements](https://kontent.ai/learn/tutorials/develop-apps/integrate/sensitive-data-in-custom-elements/)
