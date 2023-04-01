@@ -12,17 +12,16 @@
 </head>
 
 <body>
-  <input type="text" id="myValue" class="text-field__input" />
+  <input type="text" id="textInput" class="text-field__input" />
   <script type="text/javascript">
 
-    var myValueInput = document.getElementById('myValue');
-
-    myValueInput.addEventListener('input', function () {
-      setValue(myValueInput.value);
+    var textInput = document.getElementById('textInput');
+    textInput.addEventListener('input', function () {
+      setValue(textInput.value);
       updateSize();
     });
 
-    // Kontent functions
+    // Kontent.ai functions
     var isDisabled = false;
 
     function setValue(value) {
@@ -54,7 +53,8 @@
         // Reacts to changes in disabling (e.g., when publishing the item)
         CustomElement.onDisabledChanged(updateDisabled);
       } catch (err) {
-        // Sends message to console and editor if initialization failed (for example, the page is displayed outside the Kontent UI)
+        // Sends message to console and editor if initialization failed (for example, the page is 
+        // displayed outside the Kontent UI)
         console.error(err);
       }
     }
