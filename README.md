@@ -6,8 +6,8 @@ The examples are written in vanilla JavaScript and are intended to be used as a 
 
 ## Instructions
 
-1. Clone the repository
-1. Run `dotnet serve -S -p 5001` (or similar command) to serve the files
+1. Clone the repository.
+1. From the command line in the `src` directory, run `dotnet serve -S -p 5001` (or similar command) to serve the files
 1. Use the custom element URL in the Kontent.ai Custom Element configuration. Specific examples are below with any further required instructions.
 
 ## Custom Elements
