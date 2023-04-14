@@ -2,58 +2,57 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <title>Observer</title>
-  <!-- Stylesheets -->
-  <link rel="stylesheet" type="text/css" href="/css/kontent-ai-app-styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-  <script src="https://app.kontent.ai/js-api/custom-element/v1/custom-element.min.js"></script>
+    <meta charset="UTF-8"/>
+    <title>Observer</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="/css/kontent-ai-app-styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script src="https://app.kontent.ai/js-api/custom-element/v1/custom-element.min.js"></script>
 </head>
 
 <body>
-  <p>Observer</p>
-  <label for="output">Observer activity</label><textarea id="output" rows="10" class="text-field__input"></textarea>
-  <script type="text/javascript">
+<pre id="output"></pre>
+<script type="text/javascript">
     const output = document.getElementById('output');
     let isDisabled = false;
 
     function setValue(value) {
-      if (!isDisabled) {
-        CustomElement.setValue(value || null);
-      }
+        if (!isDisabled) {
+            CustomElement.setValue(value || null);
+        }
     }
 
     function updateDisabled(disabled) {
-      isDisabled = disabled;
-    }
-    
-    function updateSize() {
-      // Updates the custom element height in the Kentico UI.
-      const height = Math.ceil($('html').height());
-      CustomElement.setHeight(height);
+        isDisabled = disabled;
     }
 
-    CustomElement.observeElementChanges(['title','url_slug'], (element) => {
-      CustomElement.getElementValue(element[0], (value) => {
-        output.textContent += `\n${element} = ${value}`;
-        setValue(output.textContent);
-        updateSize();
-      });
+    function updateSize() {
+        // Updates the custom element height in the Kentico UI.
+        const height = Math.ceil($('html').height());
+        CustomElement.setHeight(height);
+    }
+
+    CustomElement.observeElementChanges(['title', 'url_slug'], (element) => {
+        CustomElement.getElementValue(element[0], (value) => {
+            output.innerText += `\n${element} = ${value}`;
+            setValue(output.textContent);
+            updateSize();
+        });
     });
 
     function initCustomElement() {
-      try {
-        CustomElement.init((element, _context) => {
-          updateSize();
-        });
-        CustomElement.onDisabledChanged(updateDisabled);
-      } catch (err) {
-        console.error(err);
-      }
+        try {
+            CustomElement.init((element, _context) => {
+                updateSize();
+            });
+            CustomElement.onDisabledChanged(updateDisabled);
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     initCustomElement();
-  </script>
+</script>
 </body>
 
 </html>
